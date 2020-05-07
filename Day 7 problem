@@ -1,0 +1,70 @@
+In a binary tree, the root node is at depth 0, and children of each depth k node are at depth k+1.
+
+Two nodes of a binary tree are cousins if they have the same depth, but have different parents.
+
+We are given the root of a binary tree with unique values, and the values x and y of two different nodes in the tree.
+
+Return true if and only if the nodes corresponding to the values x and y are cousins.
+
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isCousins(TreeNode root, int x, int y) {
+        Queue<TreeNode> dataQue = new LinkedList<>();
+        HashMap<Integer, Integer> saveParent = new HashMap<>();
+        dataQue.add(root);
+        int bothNode = 0;
+        int lvlElement = 1;
+        while(!dataQue.isEmpty()){
+            int n = 0;
+            while(lvlElement != 0 && !dataQue.isEmpty()){
+                lvlElement--;
+                if(dataQue.peek().val == x){
+                    bothNode++;
+                }
+                else if(dataQue.peek().val == y){
+                    bothNode++;
+                }
+                if(dataQue.peek().left != null){
+                    dataQue.add(dataQue.peek().left);
+                    saveParent.put(dataQue.peek().left.val,dataQue.peek().val);
+                    n++;
+                }
+                if(dataQue.peek().right != null){
+                    dataQue.add(dataQue.peek().right);
+                    saveParent.put(dataQue.peek().right.val,dataQue.peek().val);
+                    n++;
+                }
+                dataQue.remove();
+            }
+            lvlElement = n;
+            if(bothNode == 1)
+                return false;
+            else if(bothNode == 2){
+                int parentX = saveParent.get(x);
+                int parentY = saveParent.get(y);
+                System.out.println("i m here");
+                if(parentX == parentY)
+                    return false;
+                else
+                    return true;
+            }
+        }
+        return true;
+    }
+}
