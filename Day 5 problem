@@ -1,0 +1,28 @@
+Given a string, find the first non-repeating character in it and return it's index. If it doesn't exist, return -1.
+
+
+
+class Solution {
+    public int firstUniqChar(String s) {
+        int len = s.length();
+        int[] freqChar = new int[27];
+        HashMap<Character, Integer> storeChar = new HashMap<>();
+
+        for(int i = 0; i < len; i++){
+            char ch = s.charAt(i);
+            if(storeChar.containsKey(ch)){
+                freqChar[storeChar.get(ch)]++;
+            }
+            else{
+                freqChar[i] = 1;
+                storeChar.put(ch,i);
+                
+            }
+        }
+        for(int i = 0; i < 27; i++){
+            if(freqChar[i] == 1)
+                return i;
+        }
+        return -1;
+    }
+}
